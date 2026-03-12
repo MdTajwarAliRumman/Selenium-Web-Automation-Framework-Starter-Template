@@ -22,7 +22,7 @@ public class BrowserSetup {
 
     @AfterSuite
     public void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 
     public WebElement getElement(By locator) {
