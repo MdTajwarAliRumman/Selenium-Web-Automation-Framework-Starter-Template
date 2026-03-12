@@ -5,14 +5,15 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class InteractWithElements extends BrowserSetup {
+public class InteractUsingMethods extends BrowserSetup {
+    
 
     @Test
     public void testElement() throws InterruptedException {
         driver.get("https://rahulshettyacademy.com/AutomationPractice/");
 // //     Check radio button click
-        WebElement radio_btn1 = driver.findElement(By.xpath("//input[@value='radio1']"));
-        WebElement radio_btn2 = driver.findElement(By.xpath("//input[@value='radio2']"));
+        WebElement radio_btn1 = getElement(By.xpath("//input[@value='radio1']"));
+        WebElement radio_btn2 = getElement(By.xpath("//input[@value='radio2']"));
 
         Assert.assertFalse(radio_btn1.isSelected()); // isSelected is here to determine if an element is se
         // lected or not
@@ -24,17 +25,18 @@ public class InteractWithElements extends BrowserSetup {
         Assert.assertTrue(radio_btn2.isSelected()); // AssertTrue is used for making sure that the button was clicked
 
 ////        Check if webElement is displayed or not
-        WebElement text_DisplayBtn = driver.findElement(By.xpath("//input[@id='displayed-text']"));
+        WebElement text_DisplayBtn = getElement(By.xpath("//input[@id='displayed-text']"));
         Assert.assertTrue(text_DisplayBtn.isDisplayed());
-        driver.findElement(By.xpath("//input[@id='hide-textbox']")).click();
+        getElement(By.xpath("//input[@id='hide-textbox']")).click();
         Assert.assertFalse(text_DisplayBtn.isDisplayed());
 
 ////        getText method
-        WebElement dropdown_txt = driver.findElement(By.xpath("//legend[normalize-space()='Dropdown Example']"));
+        WebElement dropdown_txt = getElement(By.xpath("//legend[normalize-space()='Dropdown Example']"));
         Assert.assertEquals(dropdown_txt.getText(), "Dropdown Example"); // AssertEquals is used for making sure that the element is equal to what we are getting
 
+
 ////        Write something by using sendKeys method
-        WebElement name = driver.findElement(By.xpath("//input[@id='name']"));
+        WebElement name = getElement(By.xpath("//input[@id='name']"));
         name.sendKeys("This is Tajwar");
         Assert.assertEquals(name.getAttribute("value"), "This is Tajwar");
 
