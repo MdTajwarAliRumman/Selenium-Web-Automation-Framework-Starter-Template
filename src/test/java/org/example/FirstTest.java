@@ -22,6 +22,5 @@ public class FirstTest extends BrowserSetup {
     @Test
     public void testPageUrl() {
         Assert.assertEquals(driver.getCurrentUrl(), "https://www.google.com/");
-
     }
 }
