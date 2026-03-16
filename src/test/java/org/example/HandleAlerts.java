@@ -20,6 +20,20 @@ public class HandleAlerts extends BrowserSetup {
         System.out.println(alert.getText());
         alert.accept();
         Assert.assertEquals(getElement(result_txt).getText(), "You successfully clicked an alert");
+
+        getElement(jsConfirm).click();
+        alert = driver.switchTo().alert();
+        System.out.println(alert.getText());
+        alert.dismiss();
+        Assert.assertEquals(getElement(result_txt).getText(), "You clicked: Cancel");
+
+        getElement(jsPrompt).click();
+        alert = driver.switchTo().alert();
+        System.out.println(alert.getText());
+        alert.sendKeys("This is Tajwar!");
+        alert.accept();
+        Assert.assertEquals(getElement(result_txt).getText(), "You entered: This is Tajwar!");
+
     }
 }
 
