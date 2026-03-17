@@ -30,6 +30,8 @@ public class TestJsSelectorAndIFrame extends BrowserSetup {
 
         System.out.println(getElement(support_email).getText());
         Thread.sleep(2000);
+//        driver.switchTo().parentFrame(); // parent or default frame e abar back korar way
+        driver.switchTo().defaultContent();
 
 
     }
