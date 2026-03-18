@@ -13,6 +13,7 @@ public class BrowserSetup {
     @BeforeSuite
     public WebDriver openABrowser() {
         driver = new ChromeDriver();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));// implicitlyWait is based on the total browser lifecycle
         return driver;
     }
 
