@@ -9,19 +9,45 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import java.time.Duration;
+
 public class DriverSetup {
     WebDriver driver;
+    // If want to run browser from the command line
+    private static String browserName = System.getProperty("browser", "Chrome");
 
-    @BeforeSuite
-    public WebDriver openABrowser() {
-        driver = new ChromeDriver();
-//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));// implicitlyWait is based on the total browser lifecycle
-        return driver;
+    // This is to ensure that one test cases doesn't stop by the impact of another testcase
+    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new ThreadLocal<>();
+
+
+    //static makes it easier to call the method without creating any objects
+    public static WebDriver getDriver() {
+        return LOCAL_DRIVER.get();
     }
 
-//    public void loadURL() {
-//        driver.get("https://www.google.com/");
-//    }
+    public static void setDriver(WebDriver driver) {
+        DriverSetup.LOCAL_DRIVER.set(driver);
+    }
+
+    public WebDriver getDriver(String browser_name) {
+        if (browser_name.equalsIgnoreCase("chrome")) {
+            return new ChromeDriver();
+        } else if (browser_name.equalsIgnoreCase("firefox")) {
+            return new FirefoxDriver();
+        } else if (browser_name.equalsIgnoreCase("edge")) {
+            return new EdgeDriver();
+        } else {
+            throw new RuntimeException("Browser is not available with the name: " + browser_name);
+        }
+    }
+
+    @BeforeSuite
+    public void openABrowser() {
+        WebDriver driver = getDriver(browserName);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));// implicitlyWait is based on the total browser lifecycle
+        driver.manage().window().maximize();
+        setDriver(driver);
+    }
 
     @AfterSuite
     public void closeDriver() {
@@ -32,15 +58,5 @@ public class DriverSetup {
         return driver.findElement(locator);
     }
 
-    public WebDriver getDriver(String browser_name) {
-        if (browser_name.equals("chrome")) {
-            return new ChromeDriver();
-        } else if (browser_name.equals("firefox")) {
-            return new FirefoxDriver();
-        } else if (browser_name.equals("edge")) {
-            return new EdgeDriver();
-        } else {
-            throw new RuntimeException("Browser is not available with the name: " + browser_name);
-        }
-    }
+
 }
